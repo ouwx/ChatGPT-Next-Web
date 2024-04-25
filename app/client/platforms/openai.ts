@@ -103,6 +103,10 @@ export class ChatGPTApi implements LLMApi {
 
   async chat(options: ChatOptions) {
     const visionModel = isVisionModel(options.config.model);
+    options.messages.push({
+      role: "system",
+      content: "必须用中文回答所有问题",
+    });
     const messages = options.messages.map((v) => ({
       role: v.role,
       content: visionModel ? v.content : getMessageTextContent(v),
