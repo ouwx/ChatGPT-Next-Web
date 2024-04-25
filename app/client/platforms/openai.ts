@@ -105,13 +105,12 @@ export class ChatGPTApi implements LLMApi {
     const visionModel = isVisionModel(options.config.model);
     options.messages.push({
       role: "system",
-      content: "必须用中文回答所有问题",
+      content: "你必须使用中文回答",
     });
     const messages = options.messages.map((v) => ({
       role: v.role,
       content: visionModel ? v.content : getMessageTextContent(v),
     }));
-
     const modelConfig = {
       ...useAppConfig.getState().modelConfig,
       ...useChatStore.getState().currentSession().mask.modelConfig,
@@ -137,7 +136,7 @@ export class ChatGPTApi implements LLMApi {
       requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
     }
 
-    console.log("[Request] openai payload: ", requestPayload);
+    //console.log("[Request] openai payload: ", requestPayload);
 
     const shouldStream = !!options.config.stream;
     const controller = new AbortController();
