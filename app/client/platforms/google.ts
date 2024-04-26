@@ -23,6 +23,10 @@ export class GeminiProApi implements LLMApi {
     // const apiClient = this;
     const visionModel = isVisionModel(options.config.model);
     let multimodal = false;
+    options.messages.push({
+      role: "system",
+      content: "你必须使用中文回答",
+    });
     const messages = options.messages.map((v) => {
       let parts: any[] = [{ text: getMessageTextContent(v) }];
       if (visionModel) {
